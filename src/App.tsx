@@ -7,9 +7,15 @@ import {
   ClerkProvider,
 } from "@clerk/chrome-extension";
 import { useNavigate, Routes, Route, MemoryRouter } from "react-router-dom";
+import Chat from "./components/Chat";
 
 function HelloUser() {
-  return <p> Hello user</p>;
+  return (
+    <div>
+      <p> Hello user</p>
+      <Chat />
+    </div>
+  );
 }
 
 const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "";
