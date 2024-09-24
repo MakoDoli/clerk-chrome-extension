@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Another extension",
+  "version": "1.0",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["scripting", "storage", "identity", "tabs"],
+  "host_permissions": ["https://*/*"],
+  "icons": {
+    "32": "production.png"
+  }
+}
