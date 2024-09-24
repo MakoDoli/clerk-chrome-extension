@@ -1,8 +1,6 @@
 import { SetStateAction, useState } from "react";
 
-const API_KEY =
-  "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";
-
+const API_KEY = import.meta.env.OPENAI_API_KEY;
 const Chat = () => {
   const [message, setMessage] = useState(""); // User input
   const [response, setResponse] = useState(""); // OpenAI response
