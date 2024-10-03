@@ -5,14 +5,21 @@ import {
   SignIn,
   SignUp,
   ClerkProvider,
+  SignOutButton,
+  useUser,
 } from "@clerk/chrome-extension";
 import { useNavigate, Routes, Route, MemoryRouter } from "react-router-dom";
 import Chat from "./components/Chat";
 
 function HelloUser() {
+  const { user } = useUser();
+  const email = user?.emailAddresses[0].emailAddress;
+  const index = email?.indexOf("@");
+  const name = email?.substring(0, index);
+  console.log(name);
   return (
     <div>
-      <p> Hello user</p>
+      <p> Hello {name}</p>
       <Chat />
     </div>
   );
@@ -36,6 +43,7 @@ function ClerkProviderWithRoutes() {
             <>
               <SignedIn>
                 <HelloUser />
+                <SignOutButton />
               </SignedIn>
               <SignedOut>
                 <SignIn afterSignInUrl="/" signUpUrl="/sign-up" />

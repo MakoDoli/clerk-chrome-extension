@@ -44,8 +44,9 @@ input {
   height: 40px;
   width: 200px;
   outline: none;
-  border: solid 1px paleturquoise;
+  border: solid 1px rgb(124, 139, 139);
   border-radius: 10px;
   margin-bottom: 10px;
-  padding-left: 6px;
+
+  text-align: center;
 }

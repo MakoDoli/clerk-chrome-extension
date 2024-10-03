@@ -1,10 +1,11 @@
 import { SetStateAction, useState } from "react";
+import { useAuth } from "@clerk/clerk-react";
 
-const API_KEY = import.meta.env.OPENAI_API_KEY;
 const Chat = () => {
   const [message, setMessage] = useState(""); // User input
   const [response, setResponse] = useState(""); // OpenAI response
   const [loading, setLoading] = useState(false); // Loading state
+  const { getToken } = useAuth();
 
   const handleInputChange = (e: {
     target: { value: SetStateAction<string> };
@@ -20,24 +21,34 @@ const Chat = () => {
 
     setLoading(true);
     try {
-      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      const token = await getToken();
+
+      if (!token) throw new Error("Invalid token");
+      // const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${API_KEY}`,
+      //   },
+      //   body: JSON.stringify({
+      //     model: "gpt-3.5-turbo", // GPT-3.5 model
+      //     messages: [{ role: "user", content: message }],
+      //   }),
+      // });
+      const res = await fetch("http://localhost:5000/openai", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${API_KEY}`,
         },
-        body: JSON.stringify({
-          model: "gpt-3.5-turbo", // GPT-3.5 model
-          messages: [{ role: "user", content: message }],
-        }),
+        body: JSON.stringify({ message }),
       });
-
       if (!res.ok) {
         throw new Error("Failed to fetch response from OpenAI");
       }
 
       const data = await res.json();
-      setResponse(data.choices[0].message.content);
+      console.log(data);
+      setResponse(data.answer);
     } catch (error) {
       console.error("Error fetching response:", error);
       setResponse("Error occurred while fetching response.");
